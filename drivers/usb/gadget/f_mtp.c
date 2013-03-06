@@ -60,8 +60,8 @@
 #define MTP_RESPONSE_DEVICE_BUSY    0x2019
 
 static int htc_mtp_performance_debug;
-static int mtp_qos;
 #ifdef CONFIG_PERFLOCK
+static int mtp_qos;
 #include <mach/perflock.h>
 #endif
 
@@ -306,15 +306,16 @@ static void mtp_qos_enable(int qos_n)
 	struct mtp_dev *dev = _mtp_dev;
 	mtp_qos = qos_n;
 
-	if (qos_n) {
+	#ifdef CONFIG_PERFLOCK
 		mtp_setup_perflock(true);
 		dev->timer_expired = qos_n * MTP_QOS_N_RATIO;
 		if (dev->timer_expired < 5000)
 			dev->timer_expired = 5000;
 		mod_timer(&dev->perf_timer,
 			jiffies + msecs_to_jiffies(dev->timer_expired));
-	} else
+	#else
 		mtp_setup_perflock(false);
+	#endif
 }
 
 static void mtp_perf_lock_disable(unsigned long data)

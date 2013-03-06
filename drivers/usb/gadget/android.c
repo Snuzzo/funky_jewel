@@ -1154,7 +1154,11 @@ static struct android_usb_function ecm_function = {
 	.bind_config	= ecm_function_bind_config,
 	.unbind_config	= ecm_function_unbind_config,
 	.attributes	= ecm_function_attributes,
+	#ifdef CONFIG_PERFLOCK
 	.performance_lock = 1,
+	#else
+	.performance_lock = 0,
+	#endif
 };
 struct rndis_function_config {
 	u8      ethaddr[ETH_ALEN];
