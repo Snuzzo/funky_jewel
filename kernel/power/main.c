@@ -786,6 +786,7 @@ static struct attribute *g[] = {
 	&wakeup_count_attr.attr,
 	&touch_event_attr.attr,
 	&touch_event_timer_attr.attr,
+#endif
 #ifdef CONFIG_PM_DEBUG
 	&pm_test_attr.attr,
 #endif
@@ -793,11 +794,8 @@ static struct attribute *g[] = {
 	&wake_lock_attr.attr,
 	&wake_unlock_attr.attr,
 #endif
-#ifdef CONFIG_HTC_ONMODE_CHARGING
-	&state_onchg_attr.attr,
-#endif
-#endif
 #ifdef CONFIG_PERFLOCK
+	&state_onchg_attr.attr,
 	&perflock_attr.attr,
 	&cpufreq_ceiling_attr.attr,
 	&launch_event_attr.attr,

@@ -301,7 +301,7 @@ static void release_perflock_work_func(struct work_struct *data)
 
 #define MTP_QOS_N_RATIO		15
 #define MTP_TRANSFER_EXPIRED	(jiffies + msecs_to_jiffies(5000))
-static void mtp_qos_enable(int qos_n)
+/*static void mtp_qos_enable(int qos_n)
 {
 	struct mtp_dev *dev = _mtp_dev;
 	mtp_qos = qos_n;
@@ -316,7 +316,7 @@ static void mtp_qos_enable(int qos_n)
 	#else
 		mtp_setup_perflock(false);
 	#endif
-}
+}*/
 
 static void mtp_perf_lock_disable(unsigned long data)
 {
@@ -998,7 +998,9 @@ static long mtp_ioctl(struct file *fp, unsigned code, unsigned long value)
 		{
 			if (value > 0) {
 				printk(KERN_INFO "[USB][MTP] %s: ioctl MTP_SET_CPU_PERF, files = %d\n", __func__, (int)value);
+#ifdef CONFIG_PERFLOCK
 				mtp_qos_enable((int)value);
+#endif
 			}
 			break;
 		}
