@@ -301,23 +301,23 @@ static void release_perflock_work_func(struct work_struct *data)
 
 #define MTP_QOS_N_RATIO		15
 #define MTP_TRANSFER_EXPIRED	(jiffies + msecs_to_jiffies(5000))
-/*static void mtp_qos_enable(int qos_n)
+#ifdef CONFIG_PERFLOCK
+static void mtp_qos_enable(int qos_n)
 {
 	struct mtp_dev *dev = _mtp_dev;
 	mtp_qos = qos_n;
 
-	#ifdef CONFIG_PERFLOCK
+	
 		mtp_setup_perflock(true);
 		dev->timer_expired = qos_n * MTP_QOS_N_RATIO;
 		if (dev->timer_expired < 5000)
 			dev->timer_expired = 5000;
 		mod_timer(&dev->perf_timer,
 			jiffies + msecs_to_jiffies(dev->timer_expired));
-	#else
 		mtp_setup_perflock(false);
-	#endif
-}*/
-
+	
+}
+#endif
 static void mtp_perf_lock_disable(unsigned long data)
 {
 	struct mtp_dev *dev = _mtp_dev;
